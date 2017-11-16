@@ -1,0 +1,22 @@
+# object files
+*.o
+*.ko
+
+# libraries
+*.lib
+*.a
+
+# shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# temp macOS files
+.DS_Store
+
+# executables
+*.exe
+*.out
+*.app
+*bin
