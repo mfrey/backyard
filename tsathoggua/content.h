@@ -67,6 +67,9 @@ extern "C" {
 
 #include "ccn-lite-riot.h"
 
+/**
+ * @brief
+ */
 typedef struct __attribute__((packed)) {
     char value[CONTENT_LENGTH + 1];
     int num;

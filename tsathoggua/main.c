@@ -17,8 +17,10 @@
  *
  * @}
  */
-#include "shell.h"
+#include "debug.h"
 #include "tsathoggua.h"
+
+#include "shell.h"
 #include "shell_commands.h"
 
 #ifdef MODULE_TLSF
@@ -29,6 +31,12 @@
 static uint32_t _tlsf_heap[TLSF_BUFFER];
 #endif
 
+const shell_command_t shell_commands[] = {
+/*  {name, desc, cmd },                         */
+    {"cs", "Print CCN-lite content store", print_content_store},
+    {NULL, NULL, NULL}
+};
+
 int main(int argc, char **argv)
 {
 #ifdef MODULE_TLSF
@@ -36,7 +44,7 @@ int main(int argc, char **argv)
 #endif
 
     char line_buf[SHELL_DEFAULT_BUFSIZE];
-    shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
+    shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }
