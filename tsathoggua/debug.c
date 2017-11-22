@@ -61,3 +61,11 @@ int get_interface_number(void)
 
     return result;
 }
+
+void print_stats(int argc, char **argv) 
+{
+    (void) argc; (void) argv;
+#ifdef USE_STATS
+    printf("RX: %04" PRIu32 ", TX: %04" PRIu32 "\n", ccnl_relay.ifs[0].rx_cnt, ccnl_relay.ifs[0].tx_cnt);
+#endif 
+}

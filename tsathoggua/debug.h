@@ -30,6 +30,8 @@ void print_faces(int argc, char **argv);
 
 void print_face_statistics(struct ccnl_face_s *face);
 
+void print_stats(int argc, char **argv);
+
 int get_interface_number(void);
 
 #ifdef __cplusplus
