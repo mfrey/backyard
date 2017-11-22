@@ -18,11 +18,19 @@
 #ifndef DEBUG_H_ 
 #define DEBUG_H_
 
+#include "ccn-lite-riot.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 void print_content_store(int argc, char **argv);
+
+void print_faces(int argc, char **argv);
+
+void print_face_statistics(struct ccnl_face_s *face);
+
+int get_interface_number(void);
 
 #ifdef __cplusplus
 }

@@ -34,6 +34,7 @@ static uint32_t _tlsf_heap[TLSF_BUFFER];
 const shell_command_t shell_commands[] = {
 /*  {name, desc, cmd },                         */
     {"cs", "Print CCN-lite content store", print_content_store},
+    {"faces", "Print statistics on CCN-lite faces", print_faces},
     {NULL, NULL, NULL}
 };
 

@@ -19,11 +19,45 @@
  */
 
 #include "debug.h"
-#include "ccn-lite-riot.h"
+
+#include <stdio.h>
 
 void print_content_store(int argc, char **argv)
 {
     (void) argc; 
     (void) argv;
     ccnl_cs_dump(&ccnl_relay);
+}
+
+void print_face_statistics(struct ccnl_face_s *face)
+{
+    if (face) {
+        printf("face id: %d, flags: %d, last used: %d\n", face->faceid, face->flags, face->last_used);
+    }
+}
+
+void print_faces(int argc, char **argv)
+{
+    (void) argc; 
+    (void) argv;
+
+    struct ccnl_face_s *face = (struct ccnl_face_s*) ccnl_relay.faces;
+
+    while (face) {
+        print_face_statistics(face);
+        face = face->next;
+    } 
+}
+
+int get_interface_number(void)
+{
+    int result = 0;
+    struct ccnl_face_s *face = (struct ccnl_face_s*) ccnl_relay.faces;
+    
+    while (face) {
+        result++;
+        face = face->next;
+    } 
+
+    return result;
 }
