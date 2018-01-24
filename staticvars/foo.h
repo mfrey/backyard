@@ -3,6 +3,6 @@
 
 static int a = 42;
 
-void argh(int b, int c);
+void argh(void);
 
 #endif

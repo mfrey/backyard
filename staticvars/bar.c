@@ -5,6 +5,6 @@
 
 void gna(void)
 {
-    printf("gna: my a: %p ", &a);
-    argh(42, 23);
+    printf("a from bar: %p ", &a);
+    argh();
 }

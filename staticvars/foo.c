@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-void argh(int b, int c)
+void argh(void)
 {
-    printf("a: %p, b: %p, c: %p \n", &a, &b, &c);
+    printf("a from foo: %p\n", &a);
 }
