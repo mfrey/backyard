@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-void gna(void)
+void example(void)
 {
-    printf("a from bar: %p ", &a);
+    printf("a from bar.{h,c}: %p \n", &a);
     argh();
 }

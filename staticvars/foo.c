@@ -4,5 +4,5 @@
 
 void argh(void)
 {
-    printf("a from foo: %p\n", &a);
+    printf("a from foo.{h,c}: %p \n", &a);
 }
