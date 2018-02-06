@@ -24,13 +24,13 @@
 extern "C" {
 #endif
 
-void print_content_store(int argc, char **argv);
+int print_content_store(int argc, char **argv);
 
-void print_faces(int argc, char **argv);
+int print_faces(int argc, char **argv);
 
-void print_face_statistics(struct ccnl_face_s *face);
+int print_face_statistics(struct ccnl_face_s *face);
 
-void print_stats(int argc, char **argv);
+int print_stats(int argc, char **argv);
 
 int get_interface_number(void);
 

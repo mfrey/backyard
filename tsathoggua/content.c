@@ -31,13 +31,14 @@
 #include "net/gnrc/pktbuf.h"
 
 #include "ccnl-defs.h"
+#include "ccnl-content.h"
 #include "ccnl-pkt-ndntlv.h"
 
 /* buffers for interests and content */
 static unsigned char _int_buf[CCNLRIOT_BUF_SIZE];
-static unsigned char _cont_buf[CCNLRIOT_BUF_SIZE];
+//static unsigned char _cont_buf[CCNLRIOT_BUF_SIZE];
 static unsigned char _out[CCNL_MAX_PACKET_SIZE];
-static char _prefix_str[CCNLRIOT_PFX_LEN];
+//static char _prefix_str[CCNLRIOT_PFX_LEN];
 
 /* prototypes from CCN-lite */
 void free_packet(struct ccnl_pkt_s *pkt);
@@ -94,13 +95,13 @@ struct ccnl_content_s *create_content(struct ccnl_prefix_s *prefix,
     my_cont.num = -1;
     len = sizeof(content_t);
 
-    ssize_t arg_len = ccnl_ndntlv_prependContent(prefix, (unsigned char*) &my_cont, len, NULL, NULL, &offs, _out);
+    int arg_len = ccnl_ndntlv_prependContent(prefix, (unsigned char*) &my_cont, len, NULL, NULL, &offs, _out);
 
     unsigned char *olddata;
     unsigned char *data = olddata = _out + offs;
     unsigned typ;
 
-    if (ccnl_ndntlv_dehead(&data, &arg_len, (int*) &typ, &len) ||
+    if (ccnl_ndntlv_dehead(&data, &arg_len, (int*) &typ, (int*)&len) ||
         typ != NDN_TLV_Data) {
         return NULL;
     }
@@ -117,11 +118,11 @@ struct ccnl_content_s *create_content(struct ccnl_prefix_s *prefix,
         return NULL;
     }
 
-    c = ccnl_content_new(&ccnl_relay, &pk);
+    c = ccnl_content_new(&pk);
 
     if (send) {
         for (int i = 0; i < DOW_BC_COUNT; i++) {
-            ccnl_broadcast(&ccnl_relay, c->pkt);
+            //TODO: ccnl_broadcast(&ccnl_relay, c->pkt);
 #if (DOW_BC_COUNT > 1)
             xtimer_usleep(20000);
 #endif

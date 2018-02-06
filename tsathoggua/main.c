@@ -46,6 +46,8 @@ const shell_command_t shell_commands[] = {
 
 int main(int argc, char **argv)
 {
+    (void)argc;
+    (void)argv;
 #ifdef MODULE_TLSF
     tlsf_create_with_pool(_tlsf_heap, sizeof(_tlsf_heap));
 #endif
