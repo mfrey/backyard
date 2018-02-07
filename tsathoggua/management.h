@@ -25,6 +25,14 @@ extern "C" {
 #include "ccnl-face.h"
 #include "ccnl-relay.h"
 
+
+/**
+ * @brief Creates an NDO out of a face
+ *
+ * TODO: come up with a better name scheme
+ */
+void face_to_content(struct ccnl_prefix_s *prefix, const struct ccnl_face_s* face);
+
 /**
  * @brief Returns a list of available faces
  */
@@ -46,7 +54,11 @@ void _management_add_face(void);
 void _management_get_face(void);
 
 /**
+ * @brief Prints data about the interface to the command line
  *
+ * The face id does not map to RIOTs interface id.
+ * 
+ * @param[in] face The face to print statistical data about
  */
 void _management_face_to_string(const struct ccnl_face_s* face);
 
