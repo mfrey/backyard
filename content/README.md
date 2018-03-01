@@ -1,3 +1,4 @@
+This is an example for the discussion on CCN-lite issue [#207](https://github.com/cn-uofbasel/ccn-lite/issues/207).
 
 ## Install
 1. Clone the repository into your ``${RIOTBASE}/examples/`` directory.
