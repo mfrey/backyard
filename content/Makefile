@@ -29,7 +29,6 @@ USEMODULE += gnrc_netdev_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += timex
 USEMODULE += xtimer
-USEMODULE += xcell
 USEMODULE += random
 USEMODULE += prng_minstd
 
