@@ -29,13 +29,13 @@
 #endif
 
 #ifdef MODULE_TLSF
+#define TLSF_BUFFER     (10240 / sizeof(uint32_t))
 static uint32_t _tlsf_heap[TLSF_BUFFER];
 #endif
 
 /* main thread's message queue */
 #define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
-
 
 int main(int argc, char **argv)
 {
@@ -46,6 +46,11 @@ int main(int argc, char **argv)
 #endif
     msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
 
+    /** initialze ccn-lite */
+    ccnl_core_init();
+    /** run it */
+    ccnl_start();
+
     /** radio settings */
     uint16_t channel = 15;
     uint16_t tx_power = 8;
@@ -55,6 +60,7 @@ int main(int argc, char **argv)
     /** update radio settings */
     set_radio_settings(channel, tx_power, src_len, cca);
 
+    /** run shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
