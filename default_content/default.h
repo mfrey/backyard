@@ -10,7 +10,7 @@ extern "C" {
 
 #include "ccn-lite-riot.h"
 
-void _store_(struct ccnl_relay_s *ccnl, unsigned char *payload, int length);
+void _store_(struct ccnl_relay_s *ccnl, unsigned char* name, unsigned char *payload, int length);
 
 #ifdef __cplusplus
 
