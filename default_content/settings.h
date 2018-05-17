@@ -23,5 +23,5 @@ int set_radio_settings(uint16_t channel, uint16_t tx_power, uint16_t src_len, ne
 #endif
 
 
-#endif /* CONTENT_H_ */
+#endif /* SETTINGS_H_ */
 /** @} */

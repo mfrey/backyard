@@ -17,6 +17,7 @@
  *
  * @}
  */
+#include "node.h"
 #include "debug.h"
 #include "settings.h"
 
@@ -53,8 +54,9 @@ int main(void)
     /** update radio settings */
     set_radio_settings(channel, tx_power, src_len, cca);
 
-    /** run shell */
+    _create_node_status();
 
+    /** run shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
