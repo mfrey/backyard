@@ -11,6 +11,7 @@ extern "C" {
 #include "ccn-lite-riot.h"
 
 void _create_node_status(void);
+const char* get_host_by_mac(const char* mac);
 
 #ifdef __cplusplus
 
