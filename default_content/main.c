@@ -23,6 +23,8 @@
 
 #include "msg.h"
 #include "shell.h"
+#include "net/gnrc/netif.h"
+#include "net/gnrc/pktdump.h"
 
 #include "ccn-lite-riot.h"
 #include "tlsf-malloc.h"
@@ -55,6 +57,19 @@ int main(void)
     set_radio_settings(channel, tx_power, src_len, cca);
 
     _create_node_status();
+
+    /**
+     * enabling packet dump in order to allow the python script on 
+     * the gateway to read data when a NDO was succesfully retrieved
+     * (instead of putting it silently to the local cache (which in 
+     * (turn would require the gateway to query the caching constantly
+     * (polling))).
+     */
+#ifdef MODULE_NETIF
+    gnrc_netreg_entry_t dump = GNRC_NETREG_ENTRY_INIT_PID(GNRC_NETREG_DEMUX_CTX_ALL,
+                                                          gnrc_pktdump_pid);
+    gnrc_netreg_register(GNRC_NETTYPE_CCN_CHUNK, &dump);
+#endif
 
     /** run shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
