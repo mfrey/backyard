@@ -27,8 +27,9 @@ static const char *nodes[] = {
    "4218",
    "4221",
    "4225",
+   "TEST"
 };
-
+//d3:c1:6d:54:ab:6:13:36
 static const char *mac_addresses[] = {
    "d3:c1:6d:71:ab:01:13:36",
    "d3:c1:6d:73:ab:5b:13:36",
@@ -45,6 +46,7 @@ static const char *mac_addresses[] = {
    "d3:c1:6d:5d:ab:6b:13:36",
    "d3:c1:6d:52:ab:59:13:36",
    "d3:c1:6d:56:ab:03:13:36",
+   "d3:c1:6d:52:ab:55:13:36" // TEST NODE
 };
 
 void _create_node_status(void){
@@ -58,7 +60,7 @@ void _create_node_status(void){
     /** determine mac address of a device */
     eui64_t mac_address;
     gnrc_netapi_get(netif->pid, NETOPT_ADDRESS_LONG, 0, &mac_address, sizeof(mac_address));
-    int sensor_reading_len = sprintf(sensor_reading, "%x:%x:%x:%x:%x:%x:%x:%x", 
+    int sensor_reading_len = sprintf(sensor_reading, "%02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x", 
                     mac_address.uint8[0],
                     mac_address.uint8[1],
                     mac_address.uint8[2],
@@ -83,7 +85,8 @@ void _create_node_status(void){
 }
 
 const char* get_host_by_mac(const char* mac){
-    for(uint8_t i = 0; i < 15; i++) {
+    for(uint8_t i = 0; i < 16; i++) {
+    //for(uint8_t i = 0; i < 15; i++) {
         if (strncmp(mac_addresses[i], mac, 23) == 0) {
             return nodes[i];
         }
