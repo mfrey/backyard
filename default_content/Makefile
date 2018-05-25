@@ -4,7 +4,7 @@ BOARD ?= native
 
 BOARD_WHITELIST := fox iotlab-m3 msba2 mulle native pba-d-01-kw2x samr21-xpro
 
-RIOTBASE ?= $(CURDIR)/../../riot
+RIOTBASE ?= $(CURDIR)/../..
 
 CFLAGS += -DDEVELHELP
 CFLAGS += -DUSE_LINKLAYER
@@ -32,8 +32,12 @@ USEMODULE += timex
 USEMODULE += xtimer
 USEMODULE += random
 USEMODULE += prng_minstd
+USEMODULE += tlsf-malloc
+USEMODULE += evtimer
 
-USEPKG += tlsf
+#+USEMODULE += xcell
+#+USEMODULE += checksum
+#+INCLUDES += -I$(CURDIR)
 
 USEPKG += ccn-lite
 USEMODULE += ccn-lite-utils
