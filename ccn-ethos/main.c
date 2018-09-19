@@ -47,7 +47,7 @@ static struct ccnl_interest_s *create_interest(struct ccnl_relay_s *ccnl, unsign
     /** create prefix */
     struct ccnl_prefix_s *prefix = ccnl_URItoPrefix(name, suite, NULL);
     /** */
-    int len = ndntlv_mkInterest(prefix, &nonce, _int_buf, BUFFER_SIZE);
+    int len = ccnl_mkInterest(prefix, NULL, _int_buf, BUFFER_SIZE);
     ccnl_prefix_free(prefix);
 
     unsigned char *start = _int_buf;
@@ -121,7 +121,7 @@ int main(void)
     /** run it */
     ccnl_start();
 
-    evtimer_msg_event_t timeout;
+//    create_interest(&ccnl_relay, "/test/data");
 
     /** run shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
