@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 MSA Safety 
+ * Copyright (C) 2015 Inria
  *
  * This file is subject to the terms and conditions of the GNU Lesser
  * General Public License v2.1. See the file LICENSE in the top level
@@ -11,25 +11,21 @@
  * @{
  *
  * @file
- * @brief       ccn-lite over ethos example (work in progress)
+ * @brief       Basic ccn-lite relay example (produce and consumer via shell)
  *
- * @author      Michael Frey <michael.frey@msasafety.com>
+ * @author      Oliver Hahm <oliver.hahm@inria.fr>
  *
  * @}
  */
 
+#include <stdio.h>
+
+#include "tlsf-malloc.h"
 #include "msg.h"
 #include "shell.h"
-#include "shell_commands.h"
+#include "ccn-lite-riot.h"
 #include "net/gnrc/netif.h"
 #include "net/gnrc/pktdump.h"
-
-#include "ccn-lite-riot.h"
-#include "ccnl-pkt-builder.h"
-#include "tlsf-malloc.h"
-
-#define TLSF_BUFFER     (4096 / sizeof(uint32_t))
-static uint32_t _tlsf_heap[TLSF_BUFFER];
 
 /** defined in sys/shell/commands/sc_ccnl.c */
 extern int _ccnl_interest(int argc, char **argv); 
@@ -37,26 +33,52 @@ extern int _ccnl_interest(int argc, char **argv);
 extern int _ccnl_content(int argc, char **argv);
 
 /* main thread's message queue */
-#define MAIN_QUEUE_SIZE (4)
+#define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 
+/* 10kB buffer for the heap should be enough for everyone */
+#define TLSF_BUFFER     (10240 / sizeof(uint32_t))
+static uint32_t _tlsf_heap[TLSF_BUFFER];
+
+/** event timer for generating interests */
+evtimer_t ccn_timer;
+
+void *_generate_interest(evtimer_event_t *event) 
+{
+    printf("timer was called\n");
+
+    /** replace static prefix with a generated prefix + counter */
+    uint8_t content[2] = { 0x23, 0x42 };
+    _ccnl_content("/some/content", content);
+
+    event->offset = 10000;
+
+    /** enqueue event */
+    evtimer_add(&ccn_timer, event);
+}
 
 int main(void)
 {
+    tlsf_add_global_pool(_tlsf_heap, sizeof(_tlsf_heap));
     msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
-    tlsf_create_with_pool(_tlsf_heap, sizeof(_tlsf_heap));
-    msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
+
+    puts("Basic CCN-Lite example");
 
     /** initialize ccn-lite */
     ccnl_core_init();
-    /** run it */
+    /** start ccn-lite */
     ccnl_start();
 
-    _ccnl_interest(10, (char **)"/test/data");
+    /** define timer event */
+    evtimer_event_t new_event;
+    new_event.offset = 10000;
 
-    /** run shell */
+    /** initialize event timer */
+    evtimer_init(&ccn_timer, _generate_interest);
+    /** enqueue event */
+    evtimer_add(&ccn_timer, &new_event);
+
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
-
     return 0;
 }
