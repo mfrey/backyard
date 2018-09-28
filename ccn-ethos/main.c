@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Inria
+ * Copyright (C) 2018 MSA Safety 
  *
  * This file is subject to the terms and conditions of the GNU Lesser
  * General Public License v2.1. See the file LICENSE in the top level
@@ -11,9 +11,9 @@
  * @{
  *
  * @file
- * @brief       Basic ccn-lite relay example (produce and consumer via shell)
+ * @brief       Basic ccn-lite/ethos example 
  *
- * @author      Oliver Hahm <oliver.hahm@inria.fr>
+ * @author      Michael Frey <michael.frey@msasafety.com>
  *
  * @}
  */
@@ -43,20 +43,39 @@ static uint32_t _tlsf_heap[TLSF_BUFFER];
 /** event timer for generating interests */
 evtimer_t ccn_timer;
 
+static size_t counter = 0;
+
 void _generate_interest(evtimer_event_t *event) 
 {
     printf("timer was called\n");
 
-    char *arr[3] = { "ccnl_cs", "/some/content", "yeah" };
+    char *arr[30];
+
+    size_t prefix_size = 14 + sizeof(size_t);
+    char *prefix = ccnl_malloc(prefix_size);
+    memset(prefix, 0, prefix_size);
+    snprintf(prefix, prefix_size, "/some/content/%d", counter);
+
+    size_t content_size = 5;
+    char *content= ccnl_malloc(content_size);
+    memset(content, 0, content_size);
+    snprintf(content, content_size, "data");
+
+    arr[1] = prefix;
+    arr[2] = content;
 
     /** replace static prefix with a generated prefix + counter */
     _ccnl_content(3, arr);
-    
 
-    event->offset = 10000;
+    event->offset = 20000;
 
     /** enqueue event */
     evtimer_add(&ccn_timer, event);
+
+    ccnl_free(prefix);
+    ccnl_free(content);
+
+    counter++;
 }
 
 int main(void)
