@@ -1,4 +1,4 @@
-FROM rust:1.40 as builder
+FROM rust:1.52 as builder
 WORKDIR /usr/src/hello-world/
 COPY . .
 RUN cargo build --release

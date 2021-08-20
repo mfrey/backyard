@@ -1,7 +1,15 @@
-// This is the main function
+use std::io;
+
 fn main() {
-    // Statements here are executed when the compiled binary is called
+    println!("Guess the number!");
+    println!("Please input yur guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
 
     // Print text to the console
-    println!("Hello World!");
+    println!("You guessed: {}", guess);
 }
