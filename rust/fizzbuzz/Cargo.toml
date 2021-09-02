@@ -1,7 +1,4 @@
 [package]
-name = "guessing-game"
+name = "fizzbuzz"
 version = "0.1.0"
 authors = ["Michael Frey <mail@mfrey.net>"]
-
-[dependencies]
-rand = "0.8.4"
