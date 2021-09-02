@@ -11,6 +11,18 @@ fn fizzbuzz(i: u32) -> String {
     return result;
 }
 
+#[test]
+fn fizzbuzz_test() {
+    let mut result = fizzbuzz(3);
+    assert!(result == "Fizz");
+    result = fizzbuzz(5);
+    assert!(result == "Buzz");
+    result = fizzbuzz(15);
+    assert!(result == "FizzBuzz");
+    result = fizzbuzz(4);
+    assert!(result == "4");
+}
+
 fn main() {
     for i in 1..=100 {
         let s = fizzbuzz(i);
