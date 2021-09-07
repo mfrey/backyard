@@ -1,7 +1,28 @@
+extern crate url;
+
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 use std::io::BufReader;
+use url::Url;
+
+
+fn parse_url(line: String) -> Option<Url> {
+    match Url::parse(&line) {
+        Ok(url) => Some(url),
+        Err(_) => None
+    }
+}
+
+#[test]
+fn parse_url_valid() {
+    assert!(parse_url(String::from("https://github.com")).is_some());
+}
+
+#[test]
+fn parse_url_invalid() {
+    assert!(parse_url(String::from("some string")).is_none());
+}
 
 fn main() {
     let path = Path::new("src/data/hello.txt");
@@ -12,19 +33,17 @@ fn main() {
     };
 
     let reader = BufReader::new(file).lines();
-    let mut lines = 0;
 
     for i in reader {
-       lines += 1;
-       match i {
-           Err(why) => panic!("could not read line {}, cause: {}", lines, why),
-           Ok(line) => {
-               if !line.is_empty() {
-                   println!("{}", line)
-               }
-           }
+       let line = match i {
+           Err(why) => panic!("could not read line: {}", why),
+           Ok(content) => content 
+       };
+
+       let url = parse_url(line);
+       match url {
+           None => continue,
+           Some(line) => println!("{}", line)
        }
     }
-
-    println!("total number of lines: {}", lines);
 }
