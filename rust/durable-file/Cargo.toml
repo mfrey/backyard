@@ -1,0 +1,4 @@
+[package]
+name = "durable-file"
+version = "0.1.0"
+authors = ["Michael Frey <mail@mfrey.net>"]
